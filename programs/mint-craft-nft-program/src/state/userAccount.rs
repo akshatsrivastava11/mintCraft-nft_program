@@ -1,8 +1,9 @@
 use anchor_lang::prelude::*;
 
 #[account]
+#[derive(InitSpace)]
 pub struct UserAccount{
-    user:Pubkey,
-    nft_minted:u64,
-    bump:u64
+    pub user:Pubkey,
+    pub nft_minted:u64,
+    pub bump:u8
 }
