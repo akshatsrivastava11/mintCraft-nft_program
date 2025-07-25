@@ -5,9 +5,9 @@ use anchor_spl::{
     metadata::{
         create_metadata_accounts_v3, 
         mpl_token_metadata::{self, types::DataV2}, 
-        CreateMetadataAccountsV3
+        CreateMetadataAccountsV3, Metadata
     }, 
-    token::{mint_to, Mint, MintTo, Token, TokenAccount}
+    token::{mint_to, Mint, MintTo, Token, TokenAccount}, token_interface::spl_token_metadata_interface::state::TokenMetadata
 };
 
 use crate::{ContentAccount, InitializeConfigAccount, NftMetadata, UserAccount};
@@ -73,7 +73,7 @@ pub struct MintContentAsNFT<'info> {
     pub associated_token_program: Program<'info, AssociatedToken>,
     
     /// CHECK: This is the official token metadata program address.
-    pub token_metadata_program: UncheckedAccount<'info>,
+    pub token_metadata_program: Program<'info,Metadata>,
 }
 
 impl<'info> MintContentAsNFT<'info> {
@@ -103,6 +103,7 @@ impl<'info> MintContentAsNFT<'info> {
             ),
             1,
         )?;
+        msg!("controll reached making of DATAV2");
 
         // Create the metadata account for the NFT
         let data_v2 = DataV2 {
@@ -113,13 +114,14 @@ impl<'info> MintContentAsNFT<'info> {
             creators: Some(vec![
                 mpl_token_metadata::types::Creator {
                     address: self.content_account.creator,
-                    verified: true, // The creator is verified as it's part of the account
+                    verified: false, // The creator is verified as it's part of the account
                     share: 100,
                 },
             ]),
             collection: None,
             uses: None,
         };
+        msg!("controll reached making of createmetadataacc");
 
         create_metadata_accounts_v3(
             CpiContext::new_with_signer(
@@ -129,9 +131,10 @@ impl<'info> MintContentAsNFT<'info> {
                     mint: self.mint.to_account_info(),
                     mint_authority: self.user_config.to_account_info(),
                     payer: self.creator.to_account_info(),
-                    update_authority: self.creator.to_account_info(), // Set creator as update authority
+                    update_authority: self.user_config.to_account_info(), // Set creator as update authority
                     system_program: self.system_program.to_account_info(),
                     rent: self.rent.to_account_info(),
+            
                 },
                 signer_seeds,
             ),
