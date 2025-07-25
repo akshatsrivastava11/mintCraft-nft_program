@@ -21,7 +21,8 @@ impl<'info>InitializeConfig<'info>{
     pub fn initialize_config(&mut self,platform_fees:u8,bumps:InitializeConfigBumps)->Result<()>{
         self.config.set_inner(InitializeConfigAccount{
             platform_fees,
-            bump:bumps.config
+            bump:bumps.config,
+            authority:self.signer.key()
         });
         Ok(())
     }

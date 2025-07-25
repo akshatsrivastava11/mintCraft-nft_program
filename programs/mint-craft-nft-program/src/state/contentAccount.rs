@@ -3,15 +3,19 @@ use anchor_lang::prelude::*;
 #[account]
 #[derive(InitSpace)]
 pub struct ContentAccount{
-    creator:Pubkey,
+    pub id:u64,
+    pub creator:Pubkey,
     #[max_len(500)]
-    prompt:String,
+    pub prompt:String,
     #[max_len(50)]
-    content_ipfs:String,
+    pub content_ipfs:String,
     #[max_len(50)]
-    metadata_ipfs:String,
-    generation_timeStamp:i64,
-    is_minted:bool,
-    mint_address_ata:Pubkey,
-
+    pub metadata_ipfs:String,
+    pub ai_model_used:Pubkey,
+    pub ai_model_royalty:u16,
+    pub generation_timeStamp:i64,
+    pub mint:Option<Pubkey>,
+    pub content_type:i64,//1=music 2=image 3//Text
+    pub is_minted:bool,
+    pub mint_address_ata:Option<Pubkey>,
 }
