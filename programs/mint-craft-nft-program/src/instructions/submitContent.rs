@@ -15,7 +15,8 @@ pub struct SubmitContent<'info>{
         bump
     )]
     pub content_account:Account<'info,ContentAccount>,
-    pub aiModelUsed:SystemAccount<'info>,
+    ///CHECK: this is not dangerous because we don't read or write from this account
+    pub aiModelUsed:AccountInfo<'info>,
     pub system_program:Program<'info,System>
 }
 impl<'info>SubmitContent<'info>{

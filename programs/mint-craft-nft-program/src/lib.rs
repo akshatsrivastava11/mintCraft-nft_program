@@ -9,7 +9,7 @@ pub use constants::*;
 pub use instructions::*;
 pub use state::*;
 
-declare_id!("BrrVsyYH1Ght4cZwZYuWNY7659skft5wYHYrxPndgKQv");
+declare_id!("FqDJgJMNxGqpR8p3A7mtp4Cyow2DiXrXFoGCL1RXYsvU");
 
 #[program]
 pub mod mint_craft_nft_program {

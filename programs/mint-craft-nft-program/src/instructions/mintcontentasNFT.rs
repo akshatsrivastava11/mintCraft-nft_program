@@ -118,7 +118,7 @@ impl<'info> MintContentAsNFT<'info> {
                     share: 100,
                 },
             ]),
-            collection: None,
+            collection: None, 
             uses: None,
         };
         msg!("controll reached making of createmetadataacc");
